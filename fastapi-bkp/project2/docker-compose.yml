@@ -1,0 +1,68 @@
+services:
+  app:
+    build: 
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    env_file:
+      - ./.env
+    command: sh -c "uvicorn main:app --host 0.0.0.0"
+    
+
+  db:
+    image: postgres:17
+    container_name: postgresql
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+    command:
+      - "postgres"
+      - "-c"
+      - "timezone=America/Sao_Paulo"
+    volumes:
+      - /var/cache/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    
+
+  db-teste:
+    image: postgres:17
+    container_name: postgres-test
+    restart: always
+    ports:
+      - "5433:5432"
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    command:
+      - "postgres"
+      - "-c"
+      - "timezone=America/Sao_Paulo"
+    volumes:
+      - /var/cache/postgres_data_test/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    
+    
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    
