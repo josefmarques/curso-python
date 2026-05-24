@@ -1,10 +1,8 @@
 1. Garanta que todas dependências necessárias estão instaladas
-sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev \\
-libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \\
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+sudo apt-get update; sudo apt-get install make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 
 2. Baixe e execute o script de instalação
-curl <https://pyenv.run> | bash
+curl https://pyenv.run | bash
 
 3. Adicione o seguinte script no arquivo ~/.bashrc
 # pyenv

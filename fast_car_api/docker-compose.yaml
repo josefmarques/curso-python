@@ -1,0 +1,50 @@
+services:
+  # Serviço da Aplicação FastAPI
+  app:
+    build: .
+    container_name: fast_car_api
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://zemarques:mrq831028@postgres:5432/fin-pdv
+      - TZ=America/Sao_Paulo
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  # Serviço do Banco de Dados PostgreSQL
+  postgres:
+    image: postgres:16
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=zemarques
+      - POSTGRES_PASSWORD=mrq831028
+      - POSTGRES_DB=fin-pdv
+      - TZ=America/Sao_Paulo
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+
+  # Serviço do pgAdmin 4 (Interface Gráfica via Navegador)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_client
+    depends_on:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@eletrosil.top
+      - PGADMIN_DEFAULT_PASSWORD=mrq831028
+      - TZ=America/Sao_Paulo
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - '5050:80'
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  pgadmin_data:

@@ -1,0 +1,23 @@
+[project]
+name = "Fast Car API"
+version = "0.1.0"
+description = "API moderna com FastAPI"
+authors = [
+    {name = "Jose Marques", email = "josemarques.moc@gmail.com"}
+]
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format] 
+preview = true
+quote-style = 'single'
+
+[tool.taskipy.tasks]
+lint = 'ruff check'
+lint_fix = 'ruff check --fix'
+format = 'ruff format'
+run = 'fastapi dev fast_car_api/app.py'
